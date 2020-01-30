@@ -87,12 +87,12 @@ function fish_prompt
         }')
         if [ (_is_git_dirty) ]
             if [ (_is_git_staged) ]
-                echo -n -s "$bg_orange $white $git_staged_glyph $git_branch $normal"
+                echo -n -s "$bg_orange $white $git_staged_glyph $branch_name $normal"
             else
-                echo -n -s "$bg_red $white $git_dirty_glyph $git_branch $normal"
+                echo -n -s "$bg_red $white $git_dirty_glyph $branch_name $normal"
             end
         else
-            echo -n -s "$bg_white $blue $git_branch_glyph $git_branch $normal"
+            echo -n -s "$bg_white $blue $git_branch_glyph $branch_name $normal"
         end
     end
 
