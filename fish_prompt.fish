@@ -32,18 +32,20 @@ end
 
 function fish_prompt
     set -l last_status $status
-    set -l magenta (set_color magenta)
-    set -l red (set_color red)
-    set -l cyan (set_color cyan)
-    set -l white (set_color white)
-    set -l black (set_color black)
-    set -l bg_blue (set_color -b blue)
-    set -l bg_cyan (set_color -b cyan)
-    set -l bg_white (set_color -b white)
-    set -l bg_red (set_color -b red)
-    set -l bg_orange (set_color -b fb8d62)
-    set -l bg_yellow (set_color -b yellow)
-    set -l normal (set_color normal)
+
+    set -l magenta      (set_color magenta)
+    set -l red          (set_color de4343)
+    set -l cyan         (set_color cyan)
+    set -l white        (set_color white)
+    set -l black        (set_color black)
+    set -l bg_blue      (set_color -b blue)
+    set -l bg_cyan      (set_color -b cyan)
+    set -l bg_white     (set_color -b white)
+    set -l bg_red       (set_color -b de4343)
+    set -l bg_orange    (set_color -b fb8d62)
+    set -l bg_yellow    (set_color -b yellow)
+    set -l normal       (set_color normal)
+
     set -l cwd $white(prompt_pwd)
     set -l uid (id -u $USER)
 
