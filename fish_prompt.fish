@@ -6,14 +6,24 @@
 # set -g theme_display_user yes
 # set -g default_user default_username
 
-set __oceanfish_glyph_anchor \u2693
-set __oceanfish_glyph_flag \u2691
+set __oceanfish_glyph_anchor      \u2693
 set __oceanfish_glyph_radioactive \u2622
 
+set -x git_branch_glyph     \uE0A0
+set -x git_dirty_glyph      '*'
+set -x git_staged_glyph     '~'
+
+
 function _git_branch_name
-    echo (command git symbolic-ref HEAD 2> /dev/null | sed -e 's|^refs/heads/||')
+    echo (command git symbolic-ref HEAD 2> /dev/null | awk '{
+        sub(/refs\/heads\//, "")
+        print
+    }')
 end
 
+function _is_git_staged
+    echo (command git diff --cached --no-ext-diff 2> /dev/null)
+end
 
 function _is_git_dirty
     echo (command git status -s --ignore-submodules=dirty 2> /dev/null)
@@ -31,6 +41,7 @@ function fish_prompt
     set -l bg_cyan (set_color -b cyan)
     set -l bg_white (set_color -b white)
     set -l bg_red (set_color -b red)
+    set -l bg_orange (set_color -b fb8d62)
     set -l bg_yellow (set_color -b yellow)
     set -l normal (set_color normal)
     set -l cwd $white(prompt_pwd)
@@ -68,11 +79,18 @@ function fish_prompt
 
     # Show git branch and dirty state
     if [ (_git_branch_name) ]
-        set -l git_branch (_git_branch_name)
+        set -l branch_name (command echo (_git_branch_name) | awk '{
+            sub(/^master$/, "")
+            print
+        }')
         if [ (_is_git_dirty) ]
-            echo -n -s $bg_white $magenta " $git_branch " $red "$__oceanfish_glyph_flag " $normal
+            if [ (_is_git_staged) ]
+                echo -n -s "$bg_orange $white $git_staged_glyph $git_branch $normal"
+            else
+                echo -n -s "$bg_red $white $git_dirty_glyph $git_branch $normal"
+            end
         else
-            echo -n -s $bg_white $magenta " $git_branch " $normal
+            echo -n -s "$bg_white $blue $git_branch_glyph $git_branch $normal"
         end
     end
 
