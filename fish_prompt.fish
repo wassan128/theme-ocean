@@ -39,7 +39,7 @@ function fish_prompt
     set -l white        (set_color white)
     set -l black        (set_color black)
     set -l bg_blue      (set_color -b blue)
-    set -l bg_darkblue  (set_color -b 283d63)
+    set -l bg_darkblue  (set_color -b 384c82)
     set -l bg_cyan      (set_color -b cyan)
     set -l bg_white     (set_color -b white)
     set -l bg_red       (set_color -b de4343)
