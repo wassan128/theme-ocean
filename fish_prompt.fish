@@ -6,7 +6,7 @@
 # set -g theme_display_user yes
 # set -g default_user default_username
 
-set __oceanfish_glyph_power       \u23fb
+set __oceanfish_glyph_penguin       \uf83c
 set __oceanfish_glyph_radioactive \u2622
 
 set -x git_branch_glyph     \uE0A0
@@ -67,11 +67,11 @@ function fish_prompt
     end
 
 
-    # Show a nice power (turns red if previous command failed)
+    # Show a nice penguin (turns red if previous command failed)
     if test $last_status -ne 0
-        echo -n -s $bg_red $white " $__oceanfish_glyph_power "  $normal
+        echo -n -s $bg_red $white " $__oceanfish_glyph_penguin "  $normal
     else
-        echo -n -s $bg_blue $white " $__oceanfish_glyph_power " $normal
+        echo -n -s $bg_blue $white " $__oceanfish_glyph_penguin " $normal
     end
 
     if [ "$theme_display_user" = "yes" ]
