@@ -6,12 +6,14 @@
 # set -g theme_display_user yes
 # set -g default_user default_username
 
-set __oceanfish_glyph_penguin       \uf83c
-set __oceanfish_glyph_radioactive \u2622
+set __oceanfish_shobon               '´･ω ･`'
+set __oceanfish_shakin               '`･ω ･´'
+set __oceanfish_glyph_radioactive    \u2622
 
 set -x git_branch_glyph     \uE0A0
 set -x git_dirty_glyph      '*'
 set -x git_staged_glyph     '~'
+set -x git_stash_glyph      \uf8ea
 
 
 function _git_branch_name
@@ -21,7 +23,8 @@ function _git_branch_name
     }')
 end
 
-function _git_changes
+function _git_stashes
+    echo (command git rev-list --walk-reflogs --count refs/stash)
 end
 
 function _is_git_staged
@@ -67,11 +70,11 @@ function fish_prompt
     end
 
 
-    # Show a nice penguin (turns red if previous command failed)
+    # Show a nice shakin (turns shobon if previous command failed)
     if test $last_status -ne 0
-        echo -n -s $bg_red $white " $__oceanfish_glyph_penguin "  $normal
+        echo -n -s $bg_red $white " $__oceanfish_shobon "  $normal
     else
-        echo -n -s $bg_blue $white " $__oceanfish_glyph_penguin " $normal
+        echo -n -s $bg_blue $white " $__oceanfish_shakin " $normal
     end
 
     if [ "$theme_display_user" = "yes" ]
@@ -90,14 +93,20 @@ function fish_prompt
             sub(/^master$/, "")
             print
         }')
+
         if [ (_is_git_dirty) ]
             if [ (_is_git_staged) ]
-                echo -n -s "$bg_orange $white $git_staged_glyph $branch_name $normal"
+                echo -n -s "$bg_orange $white $git_staged_glyph $branch_name"
             else
-                echo -n -s "$bg_red $white $git_dirty_glyph $branch_name $normal"
+                echo -n -s "$bg_red $white $git_dirty_glyph $branch_name"
             end
         else
-            echo -n -s "$bg_green $white $git_branch_glyph $branch_name $normal"
+            echo -n -s "$bg_green $white $git_branch_glyph $branch_name"
+        end
+
+        set -l stash_count (_git_stashes)
+        if [ "$stash_count" -ne 0 ]
+            echo -n -s " $bg_yellow $white$git_stash_glyph $stash_count $normal"
         end
     end
 
