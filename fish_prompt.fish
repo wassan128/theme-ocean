@@ -21,6 +21,9 @@ function _git_branch_name
     }')
 end
 
+function _git_changes
+end
+
 function _is_git_staged
     echo (command git diff --cached --no-ext-diff 2> /dev/null)
 end
@@ -39,8 +42,9 @@ function fish_prompt
     set -l white        (set_color white)
     set -l black        (set_color black)
     set -l bg_blue      (set_color -b blue)
-    set -l bg_darkblue  (set_color -b 384c82)
+    set -l bg_darkblue  (set_color -b 1a3a52)
     set -l bg_cyan      (set_color -b cyan)
+    set -l bg_green     (set_color -b 58875a)
     set -l bg_white     (set_color -b white)
     set -l bg_red       (set_color -b de4343)
     set -l bg_orange    (set_color -b fb8d62)
@@ -77,7 +81,7 @@ function fish_prompt
     end
 
     # Display current path
-    echo -n -s $bg_cyan " $cwd " $normal
+    echo -n -s $bg_darkblue " $cwd " $normal
 
 
     # Show git branch and dirty state
@@ -93,7 +97,7 @@ function fish_prompt
                 echo -n -s "$bg_red $white $git_dirty_glyph $branch_name $normal"
             end
         else
-            echo -n -s "$bg_darkblue $white $git_branch_glyph $branch_name $normal"
+            echo -n -s "$bg_green $white $git_branch_glyph $branch_name $normal"
         end
     end
 
