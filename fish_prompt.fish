@@ -24,7 +24,7 @@ function _git_branch_name
 end
 
 function _git_stashes
-    echo (command git rev-list --walk-reflogs --count refs/stash)
+    echo (command git rev-list --walk-reflogs --count refs/stash 2> /dev/null)
 end
 
 function _is_git_staged
@@ -105,9 +105,12 @@ function fish_prompt
         end
 
         set -l stash_count (_git_stashes)
-        if [ "$stash_count" -ne 0 ]
-            echo -n -s " $bg_yellow $white$git_stash_glyph $stash_count $normal"
+        if [ $stash_count ]
+            echo -n -s " $bg_yellow $white$git_stash_glyph $stash_count"
         end
+
+        # clear
+        echo -n -s " $normal"
     end
 
 
