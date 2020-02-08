@@ -24,6 +24,10 @@ function _git_branch_name
     }')
 end
 
+function _git_modified
+    echo (command git ls-files --modified | wc -l 2> /dev/null)
+end
+
 function _git_stashes
     echo (command git rev-list --walk-reflogs --count refs/stash 2> /dev/null)
 end
@@ -98,10 +102,17 @@ function fish_prompt
             sub(/^master$/, "")
             print
         }')
+        set -l modified_count (_git_modified)
+        set -l stash_count (_git_stashes)
+        set -l untracked_count (_git_untracked)
 
         if [ (_is_git_dirty) ]
-            if [ (_is_git_staged) ]
+            if [ $modified_count != 0 ]
+                echo -n -s "$bg_red $white $git_dirty_glyph $branch_name"
+            else if [ (_is_git_staged) ]
                 echo -n -s "$bg_orange $white $git_staged_glyph $branch_name"
+            else if [ $untracked_count ]
+                echo -n -s "$bg_green $white $git_branch_glyph $branch_name"
             else
                 echo -n -s "$bg_red $white $git_dirty_glyph $branch_name"
             end
@@ -109,12 +120,10 @@ function fish_prompt
             echo -n -s "$bg_green $white $git_branch_glyph $branch_name"
         end
 
-        set -l stash_count (_git_stashes)
         if [ $stash_count ]
             echo -n -s " $bg_yellow $white$git_stash_glyph $stash_count"
         end
 
-        set -l untracked_count (_git_untracked)
         if [ $untracked_count ]
             echo -n -s " $bg_yellow $white$git_untracked_glyph $untracked_count"
         end
