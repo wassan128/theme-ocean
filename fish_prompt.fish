@@ -124,7 +124,7 @@ function fish_prompt
             echo -n -s " $bg_yellow $white$git_stash_glyph $stash_count"
         end
 
-        if [ $untracked_count ]
+        if [ $untracked_count != 0 ]
             echo -n -s " $bg_yellow $white$git_untracked_glyph $untracked_count"
         end
 
