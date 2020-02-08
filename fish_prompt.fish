@@ -14,6 +14,7 @@ set -x git_branch_glyph     \uE0A0
 set -x git_dirty_glyph      '*'
 set -x git_staged_glyph     '~'
 set -x git_stash_glyph      \uf8ea
+set -x git_untracked_glyph  \uf128
 
 
 function _git_branch_name
@@ -25,6 +26,10 @@ end
 
 function _git_stashes
     echo (command git rev-list --walk-reflogs --count refs/stash 2> /dev/null)
+end
+
+function _git_untracked
+    echo (command git ls-files --other --exclude-standard --directory --no-empty-directory | wc -l 2> /dev/null)
 end
 
 function _is_git_staged
@@ -107,6 +112,11 @@ function fish_prompt
         set -l stash_count (_git_stashes)
         if [ $stash_count ]
             echo -n -s " $bg_yellow $white$git_stash_glyph $stash_count"
+        end
+
+        set -l untracked_count (_git_untracked)
+        if [ $untracked_count ]
+            echo -n -s " $bg_yellow $white$git_untracked_glyph $untracked_count"
         end
 
         # clear
