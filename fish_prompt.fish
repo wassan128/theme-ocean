@@ -25,7 +25,7 @@ function _git_branch_name
 end
 
 function _git_modified
-    echo (command git ls-files --modified | wc -l 2> /dev/null)
+    echo (command git diff --numstat | wc -l 2> /dev/null)
 end
 
 function _git_stashes
